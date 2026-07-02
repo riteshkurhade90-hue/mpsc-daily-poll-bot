@@ -43,3 +43,36 @@ for row in rows[:5]:
     print(row)
 
 print("===== SUCCESS =====")
+import requests
+import json
+
+# पहिली Row घे
+row = rows[0]
+
+question = row["Question"]
+
+options = [
+    row["Option 1"],
+    row["Option 2"],
+    row["Option 3"],
+    row["Option 4"]
+]
+
+correct_option = int(row["Correct Option"]) - 1
+
+url = f"https://api.telegram.org/bot{os.environ['TELEGRAM_BOT_TOKEN']}/sendPoll"
+
+payload = {
+    "chat_id": os.environ["CHANNEL_USERNAME"],
+    "question": question,
+    "options": json.dumps(options, ensure_ascii=False),
+    "type": "quiz",
+    "correct_option_id": correct_option,
+    "is_anonymous": True,
+    "explanation": row["Explanation"]
+}
+
+response = requests.post(url, json=payload)
+
+print(response.status_code)
+print(response.text)
