@@ -66,7 +66,7 @@ start_message = """📚 MPSC Daily Quiz | Day 3
 
 send_message(start_message)
 # पहिली Row घे
-for row in rows:
+for row_number, row in enumerate(rows, start=2):
 if row["Status"] == "Posted":
     continue
     question = row["Question"]
@@ -124,6 +124,8 @@ response = requests.post(url, json=payload)
 
 print(response.status_code)
 print(response.text)
+if response.status_code == 200:
+    sheet.update_cell(row_number, 11, "Posted")
 end_message = """✅ आजची Day 3 टेस्ट पूर्ण झाली.
 
 सहभागासाठी धन्यवाद! 🙏
