@@ -45,7 +45,25 @@ for row in rows[:5]:
 print("===== SUCCESS =====")
 import requests
 import json
+def send_message(text):
+    url = f"https://api.telegram.org/bot{os.environ['TELEGRAM_BOT_TOKEN']}/sendMessage"
 
+    payload = {
+        "chat_id": os.environ["CHANNEL_USERNAME"],
+        "text": text
+    }
+
+    requests.post(url, json=payload)
+start_message = """📚 MPSC Daily Quiz | Day 3
+
+🎯 आजची नागरिकत्व (Citizenship) टेस्ट सुरू झाली आहे.
+
+📝 एकूण प्रश्न: 25
+⏱️ सर्व प्रश्न काळजीपूर्वक सोडवा.
+
+सर्वांना मनःपूर्वक शुभेच्छा! 💐"""
+
+send_message(start_message)
 # पहिली Row घे
 row = rows[0]
 
@@ -76,3 +94,12 @@ response = requests.post(url, json=payload)
 
 print(response.status_code)
 print(response.text)
+end_message = """✅ आजची Day 3 टेस्ट पूर्ण झाली.
+
+सहभागासाठी धन्यवाद! 🙏
+
+📖 उद्या दुपारी ३:०० वाजता पुढील विषयावर नवीन टेस्ट उपलब्ध होईल.
+
+अभ्यास करत रहा आणि नियमित सराव करा. 💪"""
+
+send_message(end_message)
