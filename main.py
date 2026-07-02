@@ -106,9 +106,10 @@ send_message("""📚 MPSC Daily Quiz | Day 3
 posted_count = 0
 
 for row_number, row in enumerate(rows, start=2):
-for row_number, row in enumerate(rows, start=2):
 
-    # आधी पोस्ट झाले असतील तर Skip
+    if str(row["Date"]) != today:
+        continue
+
     if str(row["Status"]).strip() == "Posted":
         continue
 
