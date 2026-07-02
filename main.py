@@ -2,31 +2,41 @@ import gspread
 import datetime
 import requests
 import json
+import base64
+import os
 
 # =======================
-# CONFIG (fill later in GitHub Secrets)
+# ENV VARIABLES
 # =======================
-TELEGRAM_BOT_TOKEN = "YOUR_BOT_TOKEN"
-CHANNEL_USERNAME = "@YOUR_CHANNEL"
+TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
+CHANNEL_USERNAME = os.environ["CHANNEL_USERNAME"]
 
 # =======================
-# Google Sheets Auth
+# GOOGLE CREDENTIALS (BASE64 → JSON)
 # =======================
+with open("credentials.json", "wb") as f:
+    f.write(base64.b64decode(os.environ["GOOGLE_CREDENTIALS"]))
+
 gc = gspread.service_account(filename="credentials.json")
 
 sheet = gc.open("Telegram Quiz Automation").sheet1
 
 # =======================
-# Get today's date
+# TODAY DATE
 # =======================
 today = datetime.date.today().strftime("%Y-%m-%d")
 
 data = sheet.get_all_records()
 
-for row in data:
+# =======================
+# FIND TODAY QUESTION
+# =======================
+for i, row in enumerate(data):
+
     if row["Date"] == today and row["Status"] != "Posted":
 
         question = row["Question"]
+
         options = [
             row["Option 1"],
             row["Option 2"],
@@ -49,7 +59,7 @@ for row in data:
 
         res = requests.post(url, data=payload)
 
-        if res.status_code == 200:
-            sheet.update_cell(data.index(row)+2, 12, "Posted")
-
         print(res.text)
+
+        if res.status_code == 200:
+            sheet.update_cell(i + 2, 12, "Posted")
