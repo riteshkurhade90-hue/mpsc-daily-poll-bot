@@ -29,7 +29,7 @@ client = gspread.authorize(creds)
 print("Google Login Success")
 
 # इथे तुझा Spreadsheet ID टाक
-SPREADSHEET_ID = "PASTE_YOUR_SPREADSHEET_ID_HERE"
+SPREADSHEET_ID = "1zR3ArmRBUhkomcd3rlJXeVKu0TrEvHC8zlqWflbJnds"
 
 sheet = client.open_by_key(SPREADSHEET_ID).sheet1
 
