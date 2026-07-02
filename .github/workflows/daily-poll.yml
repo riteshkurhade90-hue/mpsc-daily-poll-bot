@@ -1,34 +1,33 @@
-name: Daily Telegram Quiz Poll
+name: Telegram Daily Quiz Bot
 
 on:
-  schedule:
-    - cron: "30 9 * * *"  # 3:00 PM IST (UTC = 9:30 AM)
   workflow_dispatch:
 
+  schedule:
+    - cron: "30 9 * * *"
+
 jobs:
-  build:
+  run-bot:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      CHANNEL_USERNAME: ${{ secrets.CHANNEL_USERNAME }}
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
-          pip install gspread requests google-auth
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Create credentials file
-        run: |
-          echo "${{ secrets.GOOGLE_CREDENTIALS }}" > credentials.json
-
-      - name: Run script
+      - name: Run Bot
         run: python main.py
-        env:
-  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-  CHANNEL_USERNAME: ${{ secrets.CHANNEL_USERNAME }}
-  GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
