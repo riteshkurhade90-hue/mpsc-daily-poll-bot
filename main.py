@@ -107,7 +107,7 @@ posted_count = 0
 
 for row_number, row in enumerate(rows, start=2):
     
-if str(row["Status"]).strip() == "Posted":
+    if str(row["Status"]).strip() == "Posted":
     continue
     
     # आधीच पोस्ट झाले असतील तर Skip
