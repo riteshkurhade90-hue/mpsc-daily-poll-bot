@@ -29,5 +29,6 @@ jobs:
       - name: Run script
         run: python main.py
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          CHANNEL_USERNAME: ${{ secrets.CHANNEL_USERNAME }}
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  CHANNEL_USERNAME: ${{ secrets.CHANNEL_USERNAME }}
+  GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
