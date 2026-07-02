@@ -1,4 +1,5 @@
 import os
+import time
 import base64
 import gspread
 from google.oauth2.service_account import Credentials
@@ -65,7 +66,35 @@ start_message = """📚 MPSC Daily Quiz | Day 3
 
 send_message(start_message)
 # पहिली Row घे
-row = rows[0]
+for row in rows:
+
+    question = row["Question"]
+
+    options = [
+        row["Option 1"],
+        row["Option 2"],
+        row["Option 3"],
+        row["Option 4"]
+    ]
+
+    correct_option = int(row["Correct Option"]) - 1
+
+    payload = {
+        "chat_id": os.environ["CHANNEL_USERNAME"],
+        "question": question,
+        "options": json.dumps(options, ensure_ascii=False),
+        "type": "quiz",
+        "correct_option_id": correct_option,
+        "is_anonymous": True,
+        "explanation": row["Explanation"]
+    }
+
+    response = requests.post(url, json=payload)
+
+    print(response.status_code)
+    print(response.text)
+
+    time.sleep(2)
 
 question = row["Question"]
 
