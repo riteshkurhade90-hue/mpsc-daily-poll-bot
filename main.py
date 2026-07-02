@@ -37,7 +37,6 @@ sheet = client.open_by_key(SPREADSHEET_ID).sheet1
 
 rows = sheet.get_all_records()
 
-today = datetime.now().strftime("%Y-%m-%d")
 
 print(f"Today's Date : {today}")
 print(f"Total Rows : {len(rows)}")
@@ -108,10 +107,10 @@ send_message("""📚 MPSC Daily Quiz | Day 3
 posted_count = 0
 
 for row_number, row in enumerate(rows, start=2):
-
+if str(row["Status"]).strip() == "Posted":
+    continue
     # फक्त आजच्या Date चे प्रश्न
-    if str(row["Date"]) != today:
-        continue
+
 
     # आधीच पोस्ट झाले असतील तर Skip
     if str(row["Status"]).strip() == "Posted":
