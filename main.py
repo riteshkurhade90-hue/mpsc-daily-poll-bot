@@ -5,7 +5,6 @@ import base64
 import requests
 import gspread
 
-from datetime import datetime
 from google.oauth2.service_account import Credentials
 
 print("===== MPSC Daily Quiz Bot Started =====")
@@ -36,15 +35,19 @@ SPREADSHEET_ID = "1zR3ArmRBUhkomcd3rlJXeVKu0TrEvHC8zlqWflbJnds"
 sheet = client.open_by_key(SPREADSHEET_ID).sheet1
 
 rows = sheet.get_all_records()
-today = datetime.now().strftime("%Y-%m-%d")
 
-print(f"Today's Date : {today}")
 print(f"Total Rows : {len(rows)}")
-
-print
 
 BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 CHAT_ID = os.environ["CHANNEL_USERNAME"]
+
+# ===========================
+# Current Day
+# ===========================
+
+CURRENT_DAY = int(time.strftime("%d"))
+
+print(f"Today's Day : {CURRENT_DAY}")
 
 # ===========================
 # Telegram Functions
@@ -93,27 +96,25 @@ def send_poll(question, options, correct_option, explanation):
 # Start Message
 # ===========================
 
-send_message("""📚 MPSC Daily Quiz | Day 3
+send_message(f"""📚 MPSC Daily Quiz | Day {CURRENT_DAY}
 
-🎯 आजची नागरिकत्व (Citizenship) टेस्ट सुरू झाली आहे.
+🎯 आजची टेस्ट सुरू झाली आहे.
 
 📝 एकूण प्रश्न: 25
+
 ⏱️ सर्व प्रश्न काळजीपूर्वक सोडवा.
 
 सर्वांना मनःपूर्वक शुभेच्छा! 💐
-""")
-# ===========================
+""")# ===========================
 # Send Today's Quiz Polls
 # ===========================
 
 posted_count = 0
 
-for row_number, row in enumerate(rows, start=2):
+for row in rows:
 
-    if str(row["Date"]) != today:
-        continue
-
-    if str(row["Status"]).strip() == "Posted":
+    # फक्त आजच्या Day चे प्रश्न
+    if int(row["Day"]) != CURRENT_DAY:
         continue
 
     question = row["Question"]
@@ -127,21 +128,23 @@ for row_number, row in enumerate(rows, start=2):
 
     correct_option = int(row["Correct Option"]) - 1
 
+    explanation = row["Explanation"]
+
     response = send_poll(
         question,
         options,
         correct_option,
-        row["Explanation"]
+        explanation
     )
 
     print(response.status_code)
     print(response.text)
 
     if response.status_code == 200:
-        sheet.update_cell(row_number, 11, "Posted")
         posted_count += 1
 
     time.sleep(2)
+
 
 # ===========================
 # End Message
@@ -149,7 +152,7 @@ for row_number, row in enumerate(rows, start=2):
 
 if posted_count > 0:
 
-    send_message("""✅ आजची Day 3 टेस्ट पूर्ण झाली.
+    send_message(f"""✅ आजची Day {CURRENT_DAY} टेस्ट पूर्ण झाली.
 
 सहभागासाठी धन्यवाद! 🙏
 
@@ -160,6 +163,6 @@ if posted_count > 0:
 
 else:
 
-    print("आज पोस्ट करण्यासाठी नवीन प्रश्न नाहीत.")
+    send_message(f"⚠️ Day {CURRENT_DAY} साठी कोणतेही प्रश्न उपलब्ध नाहीत.")
 
 print("===== BOT FINISHED SUCCESSFULLY =====")
