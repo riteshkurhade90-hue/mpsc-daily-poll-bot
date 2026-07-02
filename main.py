@@ -67,7 +67,8 @@ start_message = """📚 MPSC Daily Quiz | Day 3
 send_message(start_message)
 # पहिली Row घे
 for row in rows:
-
+if row["Status"] == "Posted":
+    continue
     question = row["Question"]
 
     options = [
