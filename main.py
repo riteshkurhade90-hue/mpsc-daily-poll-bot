@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import time
 import base64
@@ -37,9 +38,13 @@ sheet = client.open_by_key(SPREADSHEET_ID).sheet1
 print("Spreadsheet Open Success")
 
 rows = sheet.get_all_records()
-
+today = datetime.now().strftime("%d-%m-%Y")
 print(f"एकूण Rows : {len(rows)}")
+if row["Date"] != today:
+    continue
 
+if row["Status"] == "Posted":
+    continue
 for row in rows[:5]:
     print(row)
 
