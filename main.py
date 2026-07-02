@@ -36,9 +36,12 @@ SPREADSHEET_ID = "1zR3ArmRBUhkomcd3rlJXeVKu0TrEvHC8zlqWflbJnds"
 sheet = client.open_by_key(SPREADSHEET_ID).sheet1
 
 rows = sheet.get_all_records()
+today = datetime.now().strftime("%Y-%m-%d")
 
-
+print(f"Today's Date : {today}")
 print(f"Total Rows : {len(rows)}")
+
+print
 
 BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 CHAT_ID = os.environ["CHANNEL_USERNAME"]
