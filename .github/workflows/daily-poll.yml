@@ -3,9 +3,6 @@ name: Telegram Daily Quiz Bot
 on:
   workflow_dispatch:
 
-  schedule:
-    - cron: "30 9 * * *"
-
 jobs:
   run-bot:
     runs-on: ubuntu-latest
