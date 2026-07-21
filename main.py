@@ -46,7 +46,7 @@ CHAT_ID = os.environ["CHANNEL_USERNAME"]
 # Automatic Day Detection
 # ===========================
 
-START_DATE = datetime(2026, 6, 22)
+START_DATE = datetime(2026, 7, 22)
 
 today = datetime.now()
 
@@ -100,7 +100,7 @@ def send_poll(question, options, correct_option, explanation):
 send_message(f"""📚 MPSC Daily Quiz | Day {CURRENT_DAY}
 
 🎯 आजची टेस्ट सुरू झाली आहे.
-
+🏆 विषय : इतिहास (आधुनिक)
 📝 एकूण प्रश्न: 10
 
 ⏱️ सर्व प्रश्न काळजीपूर्वक सोडवा.
@@ -172,7 +172,7 @@ if posted_count > 0:
 
 सहभागासाठी धन्यवाद! 🙏
 
-📖 उद्या सकाळी १०:०० वाजता पुढील विषयावर नवीन टेस्ट उपलब्ध होईल.
+📖 उद्या पुढील विषयावर नवीन टेस्ट उपलब्ध होईल.
 
 अभ्यास करत रहा आणि नियमित सराव करा. 💪
 """)
