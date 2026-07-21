@@ -101,7 +101,7 @@ send_message(f"""📚 MPSC Daily Quiz | Day {CURRENT_DAY}
 
 🎯 आजची टेस्ट सुरू झाली आहे.
 🏆 विषय : इतिहास (आधुनिक)
-📝 एकूण प्रश्न: 10
+📝 एकूण प्रश्न: 25
 
 ⏱️ सर्व प्रश्न काळजीपूर्वक सोडवा.
 
@@ -158,7 +158,7 @@ for index, row in enumerate(rows):
     time.sleep(2)
 
     # फक्त 10 प्रश्न पाठवायचे
-    if posted_count >= 10:
+    if posted_count >= 25:
         break
 
 
