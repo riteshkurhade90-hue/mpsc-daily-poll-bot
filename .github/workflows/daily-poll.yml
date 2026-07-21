@@ -1,6 +1,10 @@
 name: Telegram Daily Quiz Bot
 
 on:
+  schedule:
+    # 10:00 AM IST = 04:30 UTC
+    - cron: '30 4 * * *'
+
   workflow_dispatch:
 
 jobs:
