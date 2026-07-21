@@ -45,7 +45,7 @@ CHAT_ID = os.environ["CHANNEL_USERNAME"]
 # Current Day
 # ===========================
 
-CURRENT_DAY = 20
+CURRENT_DAY = 21
 
 print(f"Today's Day : {CURRENT_DAY}")
 
